@@ -1,0 +1,21 @@
+{
+  "public": {
+    "groupSize": 5,
+    "assetsUrl": "http://time-keepers.ru/_tkrtassets/"
+  },
+  "tk": {
+    "appId": "xcvxvcsdfsdfsdf",
+    "secret": "bvxcvbdfgfdgdfgdfgd",
+    "scope": "read"
+  },
+  "discord": {
+    "clientId": "discordAppID",
+    "secret": "discordSecret",
+    "scope": "read",
+    "baseUrl": "https://discordapp.com/api/oauth2"
+  },
+  "kadira": {
+    "appId": "kadiraAppId",
+    "appSecret": "kadiraAppSecretKey"
+  }
+}
