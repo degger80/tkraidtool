@@ -6,7 +6,8 @@ v-content
       router-link.title.tdn(to="/") TK raid tool
     v-spacer
     v-btn(small color="primary" @click="login" v-if="!currentUser") Login with Dsicord
-    
+    v-btn.mr-10(v-if="isAdmin" to='/admin/users' text)
+      v-icon mdi-account-supervisor
     router-link(v-if="currentUser" to='/profile')
       v-avatar(to='/profile' v-if="currentUser" size="40px")
         img(:src="`https://cdn.discordapp.com/avatars/${currentUser.profile.id}/${currentUser.profile.avatar}`")
@@ -23,17 +24,20 @@ export default {
   meteor: {
     currentUser() {
       return Meteor.user();
-    }
+    },
+    isAdmin() {
+      return Roles.userIsInRole(Meteor.userId, "admin");
+    },
   },
   methods: {
     login() {
       Meteor.loginWithDiscord();
-    }
+    },
     // logout () {
     //   this.$router.push({name: 'home'})
     //   Meteor.logout()
     // }
-  }
+  },
 };
 </script>
 <style lang="stylus" scoped>

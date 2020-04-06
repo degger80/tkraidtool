@@ -3,6 +3,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import isMeteorUser from '/imports/api/helpers/isMeteorUser'
+import isRL from '/imports/api/helpers/isRL'
+import isAdmin from '/imports/api/helpers/isAdmin'
 
 import Widget from '../imports/ui/pages/Widget.vue'
 import AddEvent from '../imports/ui/pages/AddEvent.vue'
@@ -33,13 +35,21 @@ const routes = [
     path: '/add-event', name: 'add-event', component: AddEvent,
 
     beforeEnter: (to, from, next) => {
-      isMeteorUser().then(response => {
+      isRL().then(response => {
         // if true, continue, else redirect to Login page
         response ? next() : next({ name: 'home' })
       })
     }
   },
-  { path: '/admin/users', name: 'users', component: AdminUsersPage },
+  {
+    path: '/admin/users', name: 'users', component: AdminUsersPage,
+    beforeEnter: (to, from, next) => {
+      isAdmin().then(response => {
+        // if true, continue, else redirect to Login page
+        response ? next() : next({ name: 'home' })
+      })
+    }
+  },
 
   // { path: '/generate', name: 'generate', component: ProductionGenerator },
 
