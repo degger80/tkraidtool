@@ -76,10 +76,12 @@ Meteor.publish('eventsOfTheDay', function (date, clientOffset) {
 
 
   var serverTimeDiff = clientOffset - moment().utcOffset();
+  console.log(clientOffset, serverTimeDiff);
 
 
-  var startDateTime = moment(date).add(serverTimeDiff, 'minutes').startOf('day').toDate();
-  var endDateTime = moment(date).add(serverTimeDiff, 'minutes').endOf('day').toDate();
+
+  var startDateTime = moment(date).add(clientOffset, 'minutes').startOf('day').toDate();
+  var endDateTime = moment(date).add(clientOffset, 'minutes').endOf('day').toDate();
 
 
   return CollectionEvents.find(

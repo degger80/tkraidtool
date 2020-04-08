@@ -3,9 +3,10 @@ Meteor.methods({
     if ((clientOffset !== parseInt(clientOffset, 10))) {
       return this.ready();
     }
-    var serverTimeDiff = clientOffset - moment().utcOffset();
+    // var serverTimeDiff = clientOffset - moment().utcOffset();
 
-    var startOfDay = moment().startOf('day').add(serverTimeDiff, 'minutes').toDate();
+    // var startOfDay = moment().startOf('day').add(serverTimeDiff, 'minutes').toDate();
+    var startOfDay = moment().startOf('day').toDate();
 
 
 
@@ -17,7 +18,7 @@ Meteor.methods({
           }
         }
       },
-      { $project: { orderTimeLocal: { $add: ["$startDateTime", serverTimeDiff * 60 * 1000] } } },
+      { $project: { orderTimeLocal: { $add: ["$startDateTime", clientOffset * 60 * 1000] } } },
       {
         $group: {
           _id: {

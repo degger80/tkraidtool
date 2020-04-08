@@ -42,6 +42,8 @@ export default {
 
   methods: {
     chooseDate(date) {
+      console.log(date);
+
       this.date = date;
     },
     fmt(date) {
