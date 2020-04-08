@@ -76,7 +76,7 @@ Meteor.publish('eventsOfTheDay', function (date, clientOffset) {
 
 
   var serverTimeDiff = clientOffset - moment().utcOffset();
-  console.log(clientOffset, serverTimeDiff);
+  // console.log(clientOffset, serverTimeDiff);
 
 
 

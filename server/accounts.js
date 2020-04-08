@@ -16,7 +16,6 @@ Accounts.onCreateUser(function (options, user) {
 });
 
 Accounts.onLogin((options) => {
-
   // TK - 138216321673461760
   if (!options.user.profile.isTK) {
     try {
@@ -25,7 +24,7 @@ Accounts.onLogin((options) => {
           Authorization: `Bearer ${options.user.services.discord.accessToken}`
         }
       })
-      // console.log(result.data);
+      console.log(result.data);
       let isTK = false
       result.data.map(el => {
         if (el.id === '138216321673461760') {
@@ -48,7 +47,16 @@ Accounts.onLogin((options) => {
     }
   }
 
+  const firstUser = Meteor.users.find({}, {
+    sort: {
+      createdAt: 1
+    },
+    limit: 1
+  }).fetch()[0];
 
+  if (firstUser) {
+    Roles.addUsersToRoles(firstUser, ['admin', 'rl']);
+  }
 
 
 

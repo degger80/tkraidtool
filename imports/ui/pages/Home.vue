@@ -13,7 +13,7 @@
     v-row
       v-col(v-for="event in upcomingEvents" cols="12" sm="6" lg="4" xl= "3")
         
-        v-card.event.gw2(outlined :to="`/event/${event._id}`")
+        v-card.event.gw2(outlined :to="`/event/${event._id}`" )
           v-card-title 
             span.bold {{event.eventType}}
             v-spacer
@@ -40,28 +40,30 @@ import "/imports/api/constants";
 export default {
   mixins: [fmtDate],
   components: {
-    MainLayout
+    MainLayout,
   },
   meteor: {
     $subscribe: {
-      upcomingEvents: []
+      upcomingEvents: [],
     },
     upcomingEvents() {
       return CollectionEvents.find({}, { sort: { age: -1 } });
     },
     isRL() {
       return Roles.userIsInRole(Meteor.userId, "rl");
-    }
+    },
   },
   methods: {
     addEvent() {
       this.$router.push("/add-event");
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="stylus">
+// .event.gw
 
+  // background-color transparent
 .event.gw2:after
   content: "";
   background: url(/images/gw2logo.jpg);
@@ -74,4 +76,5 @@ export default {
   bottom: 0;
   right: 0;
   position: absolute;
+  z-index : 0
 </style>

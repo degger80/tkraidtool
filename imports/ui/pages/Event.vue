@@ -17,6 +17,8 @@
               .body-1.text--primary {{event.description}}
               .subtitle-2 Начало: {{fmtDate(event.startDateTime)}}
               .body-2 (по МСК: {{fmtDate(event.startDateTime, true)}})
+            v-icon.zxc.pa-4(v-if="isAdmin || (currentUser && currentUser._id === event.ownerId)" @click="del" color="red") mdi-delete
+
         v-col(v-if="currentUser" cols="12" sm="9")
           Subscribe
       v-row
@@ -138,6 +140,9 @@ export default {
       });
       return r;
     },
+    isAdmin() {
+      return Roles.userIsInRole(Meteor.userId, "admin");
+    },
   },
   meteor: {
     $subscribe: {
@@ -181,10 +186,6 @@ export default {
       });
     },
   },
-  mounted() {
-    // console.log(this.$route.params.id);
-    console.log(this.event);
-  },
   methods: {
     log(e) {
       console.log(e);
@@ -209,10 +210,23 @@ export default {
 
       console.log(slotId);
     },
+    del() {
+      console.log("asd");
+
+      // if (confirm("Точно удалить ивент?")) {
+      Meteor.call("removeEvent", this.$route.params.id);
+      this.$router.push({ name: "home" });
+      // }
+    },
   },
 };
 </script>
 <style lang="stylus" scoped>
 .comment
   border-left 4px solid #2196f3
+.zxc
+  position absolute
+  right 0
+  bottom 0
+  z-index 1
 </style>
