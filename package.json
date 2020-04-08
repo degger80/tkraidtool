@@ -12,6 +12,7 @@
     "bcrypt": "^4.0.1",
     "jquery": "^3.4.1",
     "meteor-node-stubs": "^1.0.0",
+    "reify": "^0.20.12",
     "simpl-schema": "^1.5.7",
     "vue": "^2.6.11",
     "vue-flatpickr-component": "^8.1.5",

@@ -2,3 +2,5 @@ node_modules/
 .meteor/local
 .deploy
 settings.json
+pm2-meteor.json
+pm2.json
