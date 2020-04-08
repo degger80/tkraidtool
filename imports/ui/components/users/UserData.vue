@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-list-item \#{{index}} {{user.username}}
+  v-list-item \#{{index}} {{user.profile.username}}
     v-checkbox.ml-12(v-model="isAdmin" label="Admin" color="red" @change="toggleAdmin")
     v-checkbox.ml-12(v-model="isRL" label=" RaidLeader" color="green" @change="toggleRL")
 </template>

@@ -35,16 +35,18 @@
                     @dragover.prevent="dropId=`g_${groupNumber}_${n}`"
                     @dragleave.prevent="dropId=null"
                     )
-                    v-list-item(
+                    v-list-item.tooltip.tooltip-right(
                       v-if="slots[`g_${groupNumber}_${n}`]"
                       :id="slots[`g_${groupNumber}_${n}`]['_id']"
                       :key="n"
                       :eventSlot="slots[`g_${groupNumber}_${n}`]"
                       draggable="true"
                       @dragstart="dragstart"
-                      
+                      :class="{'comment-right':!!slots[`g_${groupNumber}_${n}`]['comment']}"
+                      :tooltip="slots[`g_${groupNumber}_${n}`].comment"
                       )
                       EventSlot(:eventSlot="slots[`g_${groupNumber}_${n}`]")
+                      span.tooltiptext(v-if="slots[`g_${groupNumber}_${n}`].comment") {{slots[`g_${groupNumber}_${n}`].comment}}
                       
                       
                   v-divider
@@ -224,6 +226,9 @@ export default {
 <style lang="stylus" scoped>
 .comment
   border-left 4px solid #2196f3
+.comment-right
+  border-right 4px solid #2196f3
+
 .zxc
   position absolute
   right 0

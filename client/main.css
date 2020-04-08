@@ -54,3 +54,14 @@
   border-style: solid;
   border-color: transparent transparent transparent gray;
 }
+
+.tooltip.tooltip-right .tooltiptext {
+  top: -5px;
+  left: 105%;
+}
+
+.tooltip.tooltip-right .tooltiptext::after {
+  left: -10px;
+
+  border-color: transparent gray transparent transparent;
+}
