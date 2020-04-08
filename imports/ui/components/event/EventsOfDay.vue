@@ -32,6 +32,9 @@ export default {
       return CollectionEvents.find({}, { sort: { startDateTime: 1 } });
     },
   },
+  updated() {
+    this.$emit("sendHeight");
+  },
   computed: {
     borders() {
       let minDate = moment().startOf("day").toDate();

@@ -7,7 +7,8 @@
         :key="index" 
         href="#" 
         @click="chooseDate(item.date)"
-        :class="{active:date===item.date}") {{fmt(item.date)}} [{{item.count}}]
+        :class="{active:date===item.date}"
+        ) {{fmt(item.date)}} [{{item.count}}]
     EventsOfDay(:date="date" v-on:sendHeight="sendHeight")
     
 </template>
@@ -28,7 +29,7 @@ export default {
       "getUpcomingEventsDays",
       moment().utcOffset(),
       (error, data) => {
-        console.log(data);
+        // console.log(data);
 
         self.days = data.map((el) => {
           el.date = new Date(el._id.year, el._id.month - 1, el._id.day);
@@ -42,7 +43,7 @@ export default {
 
   methods: {
     chooseDate(date) {
-      console.log(date);
+      // console.log(date);
 
       this.date = date;
     },
