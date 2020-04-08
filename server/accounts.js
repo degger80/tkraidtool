@@ -17,6 +17,16 @@ Accounts.onCreateUser(function (options, user) {
 
 Accounts.onLogin((options) => {
   // TK - 138216321673461760
+  Meteor.users.update(options.user._id, {
+    $set: {
+      username: options.user.services.discord.username,
+      "profile.username": options.user.services.discord.username,
+      "profile.avatar": options.user.services.discord.avatar,
+      "profile.id": options.user.services.discord.id
+
+    }
+  })
+
   if (!options.user.profile.isTK) {
     try {
       const result = HTTP.get(`https://discordapp.com/api/users/@me/guilds`, {
@@ -32,16 +42,14 @@ Accounts.onLogin((options) => {
         }
       })
 
+
       Meteor.users.update(options.user._id, {
         $set: {
-          username: options.user.services.discord.username,
-          "profile.username": options.user.services.discord.username,
-          "profile.isTK": isTK,
-          "profile.avatar": options.user.services.discord.avatar,
-          "profile.id": options.user.services.discord.id
-
+          "profile.isTK": isTK
         }
       })
+
+
     } catch (error) {
       console.log(error);
     }
