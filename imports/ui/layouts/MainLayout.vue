@@ -5,7 +5,7 @@ v-content
     v-toolbar-title 
       router-link.title.tdn(to="/") TK raid tool
     v-spacer
-    v-btn(small color="primary" @click="login" v-if="!currentUser") Login with Dsicord
+    v-btn(small color="primary" @click="login" v-if="!currentUser") Login with Discord
     v-btn.mr-10(v-if="isAdmin" to='/admin/users' text)
       v-icon mdi-account-supervisor
     router-link(v-if="currentUser" to='/profile')
