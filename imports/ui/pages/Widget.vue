@@ -25,6 +25,7 @@ export default {
 
   mounted() {
     const self = this;
+
     Meteor.call(
       "getUpcomingEventsDays",
       moment().utcOffset(),
@@ -39,6 +40,12 @@ export default {
         self.chooseDate(self.days && self.days[0] && self.days[0].date);
       }
     );
+
+    let asd = document.getElementsByClassName("v-application--wrap")[0];
+    // .map((el) => {
+    asd.style.minHeight = "auto";
+    // });
+    console.log(asd);
   },
 
   methods: {
@@ -68,7 +75,6 @@ export default {
   border-radius: 4px;
   background: rgb(250, 250, 250);
   padding: 10px;
-  margin-top: 10px;
   border: 1px solid rgb(211, 211, 211);
   font-size: 14px;
   a{
