@@ -1,6 +1,5 @@
 <template lang="pug">
-  v-app
-    router-view
+  router-view
 </template>
 <script>
 import "/imports/collections/CollectionEvents";

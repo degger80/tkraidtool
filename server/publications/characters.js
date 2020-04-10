@@ -34,3 +34,20 @@ Meteor.publish("characters", function () {
     }
   });
 });
+
+Meteor.publish("character", function (characterId) {
+  return CollectionCharacters.find({ _id: characterId }, {
+    fields: {
+      'equipment': 1,
+      'equipment_pvp': 1,
+      'level': 1,
+      'name': 1,
+      'profession': 1,
+      'updatedAt': 1,
+      'specializations': 1,
+      'userId': 1,
+      'comment': 1,
+      'skills': 1
+    }
+  });
+});

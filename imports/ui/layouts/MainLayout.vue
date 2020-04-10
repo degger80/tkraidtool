@@ -1,24 +1,28 @@
 <template lang="pug">
-v-content
-  v-app-bar(app flat hide-on-scroll color="blue-grey lighten-5")
-    router-link.tdn.logo.mr-3(to="/")
-    v-toolbar-title 
-      router-link.title.tdn(to="/") TK raid tool
-    v-spacer
-    v-btn(small color="primary" @click="login" v-if="!currentUser") Login with Dsicord
-    v-btn.mr-10(v-if="isAdmin" to='/admin/users' text)
-      v-icon mdi-account-supervisor
-    router-link(v-if="currentUser" to='/profile')
-      v-avatar(to='/profile' v-if="currentUser" size="40px")
-        img(:src="`https://cdn.discordapp.com/avatars/${currentUser.profile.id}/${currentUser.profile.avatar}`")
-  v-container.mb-8.fluid
-    slot
-  v-footer(absolute)
-    v-spacer
-    div &copy; Bormotun {{ new Date().getFullYear() }}
+v-app(style="background:rgba(255,255,255,0.8)")
+  .bg-img1
+  .bg-img2
+  v-content
+    v-app-bar(app flat hide-on-scroll color="blue-grey lighten-5")
+      router-link.tdn.logo.mr-3(to="/")
+      v-toolbar-title 
+        router-link.title.tdn(to="/") TK raid tool
+      v-spacer
+      v-btn(small color="primary" @click="login" v-if="!currentUser") Login with Dsicord
+      v-btn.mr-10(v-if="isAdmin" to='/admin/users' text)
+        v-icon mdi-account-supervisor
+      router-link(v-if="currentUser" to='/profile')
+        v-avatar(to='/profile' v-if="currentUser" size="40px")
+          img(:src="`https://cdn.discordapp.com/avatars/${currentUser.profile.id}/${currentUser.profile.avatar}`")
+    v-container.mb-8
+      slot
+    v-footer(absolute)
+      v-spacer
+      div &copy; Bormotun {{ new Date().getFullYear() }}
 
 </template>
 <script>
+import "/imports/collections/CollectionGWItems";
 export default {
   data: () => ({}),
   meteor: {
@@ -49,4 +53,20 @@ export default {
 .avatar
   width 40px
   height 40px
+.bg-img1
+  background-image: url(https://en-forum.guildwars2.com/static-asset/cl40013/themes/guildwars/design/images/side-art-left.jpg)
+  background-size contain
+  position fixed
+  z-index -10000
+  width 100%
+  height 100vh
+.bg-img2
+  background-image: url(https://en-forum.guildwars2.com/static-asset/cl40013/themes/guildwars/design/images/side-art-right.jpg)
+  background-size contain
+  background-position 100%
+  float right
+  position fixed
+  z-index -9999
+  width 100%
+  height 100vh
 </style>

@@ -1,6 +1,6 @@
 <template lang="pug">
   v-list-item.relative
-    v-avatar.mr-2(tile size="30px" :class="{hasAlts: hasAlts}" @click="toggleShowAlts")
+    v-avatar.mr-2(tile size="30px" :class="{hasAlts: hasAlts}" @click.stop="toggleShowAlts")
       img( style="pointer-events: none;"  :src="`/images/professions/${eventSlot['profession']}_tango_icon_20px.png`")
     | {{eventSlot['characterName']}}
     div.alts(v-if="showAlts&&hasAlts")

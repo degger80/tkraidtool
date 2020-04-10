@@ -45,7 +45,7 @@
                       :class="{'comment-right':!!slots[`g_${groupNumber}_${n}`]['comment']}"
                       :tooltip="slots[`g_${groupNumber}_${n}`].comment"
                       )
-                      EventSlot(:eventSlot="slots[`g_${groupNumber}_${n}`]")
+                      EventSlot(:eventSlot="slots[`g_${groupNumber}_${n}`]" @click.native="toggleSelectedCharId(slots[`g_${groupNumber}_${n}`].characterId)")
                       span.tooltiptext(v-if="slots[`g_${groupNumber}_${n}`].comment") {{slots[`g_${groupNumber}_${n}`].comment}}
                       
                       
@@ -70,7 +70,7 @@
                   :class="{comment:!!item['comment']}"
                   :tooltip="item.comment")
                   span.tooltiptext(v-if="item.comment") {{item.comment}}
-                  EventSlot(:eventSlot="item")
+                  EventSlot(:eventSlot="item" @click.native="toggleSelectedCharId(item.characterId)")
                   
             v-col(cols="12" md='6')
               v-card(
@@ -90,7 +90,7 @@
                   @dragstart="dragstart"
                   :class="{comment:!!item['comment']}"
                   v-on="on")
-                  EventSlot(:eventSlot="item")
+                  EventSlot(:eventSlot="item" @click.native="toggleSelectedCharId(item.characterId)")
                   span.tooltiptext(v-if="item.comment") {{item.comment}}
               v-card.mt-8(
                 outlined
@@ -108,27 +108,36 @@
                   :class="{comment:!!item['comment']}"
                   v-on="on"
                   )
-                  EventSlot(:eventSlot="item")
+                  EventSlot(:eventSlot="item" @click.native="toggleSelectedCharId(item.characterId)")
                   span.tooltiptext(v-if="item.comment") {{item.comment}}
+      v-dialog(
+        v-model="isCharboxOpen"
+        max-width="80%"            
+      )
+        CharacterBox(:charId="selectedCharId" :defaultEventType="event.eventType")
+      
 </template>
 <script>
 import MainLayout from "../layouts/MainLayout";
 import { fmtDate } from "/imports/ui/mixins/fmtDate";
-// import draggable from "vuedraggable";
 
 // components
 import Subscribe from "/imports/ui/components/event/Subscribe";
 import EventSlot from "/imports/ui/components/event/EventSlot";
+import CharacterBox from "/imports/ui/components/event/CharacterBox";
 
 export default {
   mixins: [fmtDate],
   data: () => ({
     dropId: null,
+    selectedCharId: "9mdwDA6KLdHkH2Ax6",
+    isCharboxOpen: true,
   }),
   components: {
     MainLayout,
     Subscribe,
     EventSlot,
+    CharacterBox,
     // draggable
   },
   computed: {
@@ -189,9 +198,6 @@ export default {
     },
   },
   methods: {
-    log(e) {
-      console.log(e);
-    },
     dragstart: (e) => {
       console.log(e.target.id);
 
@@ -219,6 +225,11 @@ export default {
       Meteor.call("removeEvent", this.$route.params.id);
       this.$router.push({ name: "home" });
       // }
+    },
+    toggleSelectedCharId(charId) {
+      this.isCharboxOpen = true;
+
+      this.selectedCharId = charId;
     },
   },
 };

@@ -61,9 +61,7 @@ export default {
 };
 </script>
 <style lang="stylus">
-// .event.gw
 
-  // background-color transparent
 .event.gw2:after
   content: "";
   background: url(/images/gw2logo.jpg);
