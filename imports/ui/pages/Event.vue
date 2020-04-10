@@ -130,8 +130,8 @@ export default {
   mixins: [fmtDate],
   data: () => ({
     dropId: null,
-    selectedCharId: "9mdwDA6KLdHkH2Ax6",
-    isCharboxOpen: true,
+    selectedCharId: null,
+    isCharboxOpen: false,
   }),
   components: {
     MainLayout,
