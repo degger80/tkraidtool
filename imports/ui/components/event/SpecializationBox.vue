@@ -1,7 +1,7 @@
 <template lang="pug">
-  .spec-branch(:style="`backgroundImage: url(${gwSpecializations.background})`" v-if="$subReady.gwSpecializations && $subReady.gwTraits")
+  .spec-branch(:style="`backgroundImage: url(${assetsUrl}s_bg/${gwSpecializations.id}.png)`" v-if="$subReady.gwSpecializations && $subReady.gwTraits")
     .spec-name {{gwSpecializations.name}}
-    .spec-icon(:style="`backgroundImage: url(${gwSpecializations.icon})`")
+    .spec-icon(:style="`backgroundImage: url(${assetsUrl}s_icons/${gwSpecializations.id}.png)`")
     SpecTrait(v-for="item,index in gwSpecializations.minor_traits" :traitId="item" type="minor" :index="index+1" :isActive="true")
     SpecTrait(v-for="item,index in gwSpecializations.major_traits" :traitId="item" type="major" :index="index+1" :isActive="spec.traits.includes(item)")
 </template>

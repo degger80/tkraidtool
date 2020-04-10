@@ -1,6 +1,6 @@
 <template lang="pug">
 .trait(:class="[{active: isActive}, type, `t${index}`]")
-  img(:src="trait.icon")
+  img(:src="`${assetsUrl}t/${trait.specialization}/${trait.id}.png`")
   .overlay
   .trait-tooltip
     h5 {{trait.name}}
