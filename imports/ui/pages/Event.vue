@@ -114,7 +114,7 @@
         v-model="isCharboxOpen"
         max-width="80%"            
       )
-        CharacterBox(:charId="selectedCharId" :defaultEventType="event.eventType")
+        CharacterBox(:character="charData" :defaultEventType="event.eventType" v-if="charData")
       
 </template>
 <script>
@@ -132,6 +132,7 @@ export default {
     dropId: null,
     selectedCharId: null,
     isCharboxOpen: false,
+    charData: null,
   }),
   components: {
     MainLayout,
@@ -227,9 +228,19 @@ export default {
       // }
     },
     toggleSelectedCharId(charId) {
-      this.isCharboxOpen = true;
-
-      this.selectedCharId = charId;
+      self = this;
+      self.isCharboxOpen = false;
+      self.selectedCharId = null;
+      self.charData = null;
+      Meteor.call("getCharData", charId, this.event.eventType, function (
+        err,
+        result
+      ) {
+        console.log(result);
+        self.selectedCharId = charId;
+        self.charData = result;
+        self.isCharboxOpen = true;
+      });
     },
   },
 };

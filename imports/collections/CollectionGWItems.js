@@ -1,4 +1,5 @@
 CollectionGWItems = new Mongo.Collection('gwItems');
+CollectionGWItemStats = new Mongo.Collection('gwItemStats');
 CollectionGWSpecializations = new Mongo.Collection('gwSpecializations');
 CollectionGWTraits = new Mongo.Collection('gwTraits');
 CollectionGWSkills = new Mongo.Collection('gwSkills');

@@ -1,6 +1,9 @@
+const https = require('https');
+const fs = require('fs');
+
 Meteor.methods({
   'updateItemCache': function (itemId) {
-    this.unblock();
+    // this.unblock();
     try {
       var result = HTTP.call('GET', 'https://api.guildwars2.com/v2/items/' + itemId, {
         // headers: {
@@ -24,14 +27,46 @@ Meteor.methods({
 
       }
 
-      return result;
+      return CollectionGWItems.findOne({ id: itemId });
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  },
+
+  'updateItemStatsCache': function (itemId) {
+    // this.unblock();
+    try {
+      var result = HTTP.call('GET', 'https://api.guildwars2.com/v2/itemstats/' + itemId, {
+        // headers: {
+        //     Authorization: "Bearer " + key
+        // }
+      });
+
+      var item = CollectionGWItemStats.findOne({ id: itemId });
+      var insertObject = result.data;
+      insertObject.updatedAt = new Date();
+      if (item) {
+        //update
+
+        CollectionGWItemStats.update(item._id, { $set: insertObject });
+
+
+      } else {
+        //insert
+
+        CollectionGWItemStats.insert(insertObject);
+
+      }
+
+      return CollectionGWItemStats.findOne({ id: itemId });
     } catch (e) {
       console.log(e);
       return false;
     }
   },
   'updateSpecializationCache': function (specId) {
-    this.unblock();
+    // this.unblock();
     try {
       var result = HTTP.call('GET', 'https://api.guildwars2.com/v2/specializations?id=' + specId, {
         // headers: {
@@ -55,14 +90,14 @@ Meteor.methods({
 
       }
 
-      return result;
+      return CollectionGWSpecializations.findOne({ id: specId });
     } catch (e) {
       console.log(e);
       return false;
     }
   },
   'updateTraitCache': function (traitId) {
-    this.unblock();
+    // this.unblock();
     try {
       var result = HTTP.call('GET', 'https://api.guildwars2.com/v2/traits?id=' + traitId, {
         // headers: {
@@ -86,7 +121,7 @@ Meteor.methods({
 
       }
 
-      return result;
+      return CollectionGWTraits.findOne({ id: traitId });
     } catch (e) {
       console.log(e);
       return false;
@@ -228,4 +263,28 @@ Meteor.methods({
       return false;
     }
   },
+  chacheItemIcon (item) {
+    this.unblock()
+
+    // return
+
+    const fileIcon = fs.createWriteStream(`${Meteor.settings.public.assetsPath}/i/${item.id}.png`);
+    https.get(item.icon, function (response) {
+      response.pipe(fileIcon);
+      if (response.statusCode === 200) {
+        CollectionGWItems.update({ id: item.id }, {
+          $set: {
+            icon: `${Meteor.settings.public.assetsUrl}/e/i/${item.id}.png`
+          }
+        })
+      }
+    }).on('error', (e) => {
+      console.error(e);
+    });
+
+
+
+
+
+  }
 })

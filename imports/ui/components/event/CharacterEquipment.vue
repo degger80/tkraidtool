@@ -4,31 +4,31 @@
     v-col(cols="12" lg="3")  
       v-row
         v-col.sm-6
-          CharacterEquipmentSlot(:item="equipment['WeaponA1']")
-          CharacterEquipmentSlot(:item="equipment['WeaponA2']")
+          CharacterEquipmentSlot(slotName='WeaponA1' :item="equipment['WeaponA1']")
+          CharacterEquipmentSlot(slotName='WeaponA2' :item="equipment['WeaponA2']")
         v-col.sm-6
-          CharacterEquipmentSlot(:item="equipment['WeaponB1']" align="left")
-          CharacterEquipmentSlot(:item="equipment['WeaponB2']" align="left")
+          CharacterEquipmentSlot(slotName='WeaponB1' :item="equipment['WeaponB1']" align="left")
+          CharacterEquipmentSlot(slotName='WeaponB2' :item="equipment['WeaponB2']" align="left")
       v-row
         v-col.sm-6
-          CharacterEquipmentSlot(:item="equipment['Helm']")
-          CharacterEquipmentSlot(:item="equipment['Shoulders']")
-          CharacterEquipmentSlot(:item="equipment['Coat']")
+          CharacterEquipmentSlot(:item="equipment['Helm']" slotName="Helm")
+          CharacterEquipmentSlot(:item="equipment['Shoulders']" slotName="Shoulders")
+          CharacterEquipmentSlot(:item="equipment['Coat']" slotName="Coat")
         v-col.sm-6
-          CharacterEquipmentSlot(:item="equipment['Gloves']" align="left")
-          CharacterEquipmentSlot(:item="equipment['Leggings']" align="left")
-          CharacterEquipmentSlot(:item="equipment['Boots']" align="left")
+          CharacterEquipmentSlot(:item="equipment['Gloves']" align="left" slotName="Gloves")
+          CharacterEquipmentSlot(:item="equipment['Leggings']" align="left" slotName="Leggings")
+          CharacterEquipmentSlot(:item="equipment['Boots']" align="left" slotName="Boots")
       v-row
         v-col.sm-6
-          CharacterEquipmentSlot(:item="equipment['Backpack']")
-          CharacterEquipmentSlot(:item="equipment['Ring1']")
-          CharacterEquipmentSlot(:item="equipment['Ring2']")
+          CharacterEquipmentSlot(:item="equipment['Backpack']" slotName="Backpack")
+          CharacterEquipmentSlot(:item="equipment['Ring1']" slotName="Ring1")
+          CharacterEquipmentSlot(:item="equipment['Ring2']" slotName="Ring2")
         v-col.sm-6
-          CharacterEquipmentSlot(:item="equipment['Amulet']" align="left")
-          CharacterEquipmentSlot(:item="equipment['Accessory1']" align="left")
-          CharacterEquipmentSlot(:item="equipment['Accessory2']" align="left")
+          CharacterEquipmentSlot(:item="equipment['Amulet']" align="left" slotName="Amulet")
+          CharacterEquipmentSlot(:item="equipment['Accessory1']" align="left" slotName="Accessory1")
+          CharacterEquipmentSlot(:item="equipment['Accessory2']" align="left" slotName="Accessory2")
     v-col(cols="12" lg="9")  
-      EChart(v-if="$subReady.gwItems")
+      EChart(:stats="character.stats")
   
 </template>
 <script>
@@ -36,73 +36,16 @@ import CharacterEquipmentSlot from "/imports/ui/components/event/CharacterEquipm
 import EChart from "/imports/ui/components/event/EChart";
 
 export default {
-  props: ["character", "eventType"],
+  props: ["character"],
+
   components: {
     CharacterEquipmentSlot,
     EChart,
   },
   data() {
-    return {};
-  },
-  computed: {
-    itemIds() {
-      let ids = [];
-      this.character.equipment.map(function (equipment) {
-        ids.push(equipment.id);
-        if (equipment.upgrades) {
-          equipment.upgrades.map(function (upgrade) {
-            ids.push(upgrade);
-          });
-        }
-        if (equipment.infusions) {
-          equipment.infusions.map(function (infusion) {
-            ids.push(infusion);
-          });
-        }
-      });
-      return ids;
-    },
-    equipment() {
-      const slots = {
-        Helm: { slot: "Helm" },
-        Shoulders: { slot: "Shoulders" },
-        Coat: { slot: "Coat" },
-        Gloves: { slot: "Gloves" },
-        Leggings: { slot: "Leggings" },
-        Boots: { slot: "Boots" },
-        Amulet: { slot: "Amulet" },
-        Ring1: { slot: "Ring1" },
-        Ring2: { slot: "Ring2" },
-        Accessory1: { slot: "Accessory1" },
-        Accessory2: { slot: "Accessory2" },
-        Backpack: { slot: "Backpack" },
-        Ring1: { slot: "Ring1" },
-        WeaponA1: { slot: "WeaponA1" },
-        WeaponA2: { slot: "WeaponA2" },
-        WeaponB1: { slot: "WeaponB1" },
-        WeaponB2: { slot: "WeaponB2" },
-      };
-
-      this.character.equipment.map(function (item) {
-        // console.log(item);
-        slots[item.slot] = {
-          _id: item.id,
-          upgrades: item.upgrades,
-          infusions: item.infusions,
-          skin: item.skin,
-          slot: item.slot,
-          stats: item.stats && item.stats.attributes,
-        };
-      });
-      return slots;
-    },
-  },
-  meteor: {
-    $subscribe: {
-      gwItems() {
-        return [this.itemIds]; // send the param to the server
-      },
-    },
+    return {
+      equipment: this.character.equipment,
+    };
   },
 };
 </script>

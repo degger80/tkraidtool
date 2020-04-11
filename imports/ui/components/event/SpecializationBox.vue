@@ -1,9 +1,9 @@
 <template lang="pug">
-  .spec-branch(:style="`backgroundImage: url(${assetsUrl}s_bg/${gwSpecializations.id}.png)`" v-if="$subReady.gwSpecializations && $subReady.gwTraits")
-    .spec-name {{gwSpecializations.name}}
-    .spec-icon(:style="`backgroundImage: url(${assetsUrl}s_icons/${gwSpecializations.id}.png)`")
-    SpecTrait(v-for="item,index in gwSpecializations.minor_traits" :traitId="item" type="minor" :index="index+1" :isActive="true")
-    SpecTrait(v-for="item,index in gwSpecializations.major_traits" :traitId="item" type="major" :index="index+1" :isActive="spec.traits.includes(item)")
+  .spec-branch(:style="`backgroundImage: url(${assetsUrl}/s_bg/${spec.id}.png)`")
+    .spec-name {{spec.name}}
+    .spec-icon(:style="`backgroundImage: url(${assetsUrl}/s_icons/${spec.id}.png)`")
+    SpecTrait(v-for="item,index in spec.minor_traits" :specId="spec.id" :trait="item" type="minor" :index="index+1")
+    SpecTrait(v-for="item,index in spec.major_traits" :specId="spec.id" :trait="item" type="major" :index="index+1")
 </template>
 <script>
 import SpecTrait from "/imports/ui/components/event/SpecTrait";
@@ -16,26 +16,6 @@ export default {
     return {
       assetsUrl: Meteor.settings.public.assetsUrl,
     };
-  },
-  meteor: {
-    $subscribe: {
-      gwSpecializations() {
-        return [this.spec.id]; // send the param to the server
-      },
-      gwTraits() {
-        return [this.spec.id]; // send the param to the server
-      },
-    },
-    gwSpecializations() {
-      const sp = CollectionGWSpecializations.findOne({ id: this.spec.id });
-
-      if (this.$subReady.gwSpecializations && !sp) {
-        console.log("update FROM GW2!");
-
-        Meteor.call("updateSpecializationCache", this.spec.id);
-      }
-      return sp;
-    },
   },
 };
 </script>

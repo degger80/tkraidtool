@@ -1,12 +1,12 @@
 <template lang="pug">
-v-card.py-8(v-if="$subReady.character")
+v-card.py-8
   v-card-title 
-    img.mr-2(:src="`/images/professions/${character['profession']}_tango_icon_20px.png`")
+    img.mr-2(:src="`/images/professions/${character['profession']}_tango_icon_48px.png`")
     | {{character.name}}
   v-card-text
     v-row
       v-col.lg-5
-        CharacterBuild.pt-2(:character="character" :eventType="eventType")
+        CharacterBuild.pt-2(:character="character")
       v-col.lg-7
         CharacterPvpEquipment(v-show="false" :character="character" :eventType="eventType")
         CharacterEquipment(:character="character" :eventType="eventType")
@@ -17,7 +17,7 @@ import CharacterEquipment from "/imports/ui/components/event/CharacterEquipment"
 import CharacterPvpEquipment from "/imports/ui/components/event/CharacterPvpEquipment";
 
 export default {
-  props: ["charId", "defaultEventType"],
+  props: ["character", "defaultEventType"],
   data() {
     return {
       eventType: this.defaultEventType,
@@ -27,19 +27,6 @@ export default {
     CharacterBuild,
     CharacterEquipment,
     CharacterPvpEquipment,
-  },
-  meteor: {
-    $subscribe: {
-      character() {
-        return [this.charId]; // send the param to the server
-      },
-    },
-    character() {
-      return CollectionCharacters.findOne(this.charId);
-    },
-  },
-  mounted() {
-    console.log(this.charId);
   },
 };
 </script>

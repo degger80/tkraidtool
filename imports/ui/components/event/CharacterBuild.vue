@@ -1,7 +1,7 @@
 <template lang="pug">
 .character-build  
   .specialisations
-    SpecializationBox(v-for="item in character.specializations[eventType]" :spec="item")
+    SpecializationBox(v-for="item in character.specs" :spec="item")
 </template>
 <script>
 import SpecializationBox from "/imports/ui/components/event/SpecializationBox";

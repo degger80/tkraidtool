@@ -1,7 +1,9 @@
 <template lang="pug">
 .es-wrap
-  .equipment-slot(:class="[item.slot, align]")
-    EquipedItem(:item="equippedItem" :baseData="item" :align="align" v-if="equippedItem")
+  .equipment-slot(:class="[slotName, align]")
+    EquipedItem(:item="item" :class="align" v-if="item")
+    EquipedItem( v-if="item" v-for="upgrade, index in item.upgrades" :item="upgrade" :class="['upgrade', `u${index+1}`, align]")
+    EquipedItem( v-if="item" v-for="upgrade, index in item.infusions" :item="upgrade" :class="['infusion', `u${index+1}`, align]")
 </template>
 <script>
 import EquipedItem from "/imports/ui/components/event/EquipedItem";
@@ -9,7 +11,10 @@ import EquippedItemUpgrade from "/imports/ui/components/event/EquippedItemUpgrad
 
 export default {
   props: {
-    item: {},
+    slotName: String,
+    item: {
+      default: false,
+    },
     align: {
       default: "right",
     },
@@ -17,16 +22,6 @@ export default {
   components: {
     EquipedItem,
     EquippedItemUpgrade,
-  },
-  meteor: {
-    equippedItem() {
-      if (!this.item._id) return false;
-      const sp = CollectionGWItems.findOne({ id: this.item._id });
-      if (!sp) {
-        Meteor.call("updateItemCache", this.item._id);
-      }
-      return sp;
-    },
   },
 };
 </script>
