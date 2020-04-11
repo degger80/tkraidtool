@@ -11,8 +11,17 @@ Meteor.methods({
         // }
       });
 
+
       var item = CollectionGWItems.findOne({ id: itemId });
       var insertObject = result.data;
+      if (result.statusCode === 404) {
+        insertObject = {
+          id: itemId,
+          name: 'Фигня какая то которой нет в API',
+          bug: true,
+          icon: `/images/races/Asura_tango_icon_48px.png`
+        }
+      }
       insertObject.updatedAt = new Date();
       if (item) {
         //update
@@ -99,26 +108,15 @@ Meteor.methods({
   'updateTraitCache': function (traitId) {
     // this.unblock();
     try {
-      var result = HTTP.call('GET', 'https://api.guildwars2.com/v2/traits?id=' + traitId, {
-        // headers: {
-        //     Authorization: "Bearer " + key
-        // }
-      });
+      const result = HTTP.call('GET', 'https://api.guildwars2.com/v2/traits?id=' + traitId);
 
-      var item = CollectionGWTraits.findOne({ id: traitId });
-      var insertObject = result.data;
+      const item = CollectionGWTraits.findOne({ id: traitId });
+      const insertObject = result.data;
       insertObject.updatedAt = new Date();
       if (item) {
-        //update
-
         CollectionGWTraits.update(item._id, { $set: insertObject });
-
-
       } else {
-        //insert
-
         CollectionGWTraits.insert(insertObject);
-
       }
 
       return CollectionGWTraits.findOne({ id: traitId });
@@ -268,35 +266,23 @@ Meteor.methods({
 
     // return
 
+    if (item.bug) return
+
 
 
 
     const fileIcon = fs.createWriteStream(`${Meteor.settings.public.assetsPath}/e/i/${item.id}.png`);
 
 
-    // const f = HTTP.get(item.icon)
-    // const newUrl = `${Meteor.settings.public.assetsPath}/e/i/${item.id}.png`
-    // console.log(newUrl);
-
-
-    // if (f.statusCode === 200) {
-    //   fs.writeFileSync(newUrl, f.content)
-    //   CollectionGWItems.update({ id: item.id }, {
-    //     $set: {
-    //       icon: `${Meteor.settings.public.assetsUrl}/e/i/${item.id}.png`
-    //     }
-    //   })
-
-    // }
 
     https.get(item.icon, Meteor.bindEnvironment(response => {
       response.pipe(fileIcon);
       if (response.statusCode === 200) {
-        CollectionGWItems.update({ id: item.id }, {
-          $set: {
-            icon: `${Meteor.settings.public.assetsUrl}/e/i/${item.id}.png`
-          }
-        })
+        // CollectionGWItems.update({ id: item.id }, {
+        //   $set: {
+        //     icon: `${Meteor.settings.public.assetsUrl}/e/i/${item.id}.png`
+        //   }
+        // })
       }
     }))
 

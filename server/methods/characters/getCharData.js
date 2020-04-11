@@ -2,12 +2,15 @@ import '/imports/collections/CollectionCharacters'
 
 Meteor.methods({
   'getCharData': function (characterId, eventType) {
-    // console.log('getCharData');
+    console.log('getCharData', characterId);
 
     check(eventType, Match.OneOf('wvw', 'pve', 'pvp'))
 
     try {
       const character = CollectionCharacters.findOne({ _id: characterId });
+
+      console.log(eventType);
+
       const charData = {
         name: character.name,
         profession: character.profession,
@@ -25,11 +28,14 @@ Meteor.methods({
 
       }
       const eventTypeSpecs = character.specializations[eventType];
-      // console.log(eventTypeSpecs);
+      console.log(eventTypeSpecs);
 
       for (let index = 0; index < eventTypeSpecs.length; index++) {
         const spec = eventTypeSpecs[index];
-        const specData = CollectionGWSpecializations.findOne({ id: spec.id }, {
+        if (spec.id === 0) return charData
+        console.log(spec.id);
+
+        let specData = CollectionGWSpecializations.findOne({ id: spec.id }, {
           fields: {
             id: 1,
             name: 1,
@@ -50,8 +56,8 @@ Meteor.methods({
 
         // дергаем инфу по minor трейтам
         for (let index = 0; index < specData.minor_traits.length; index++) {
-          const traitId = specData.minor_traits[index];
-          const traitData = CollectionGWTraits.findOne({ id: traitId }, {
+          let traitId = specData.minor_traits[index];
+          let traitData = CollectionGWTraits.findOne({ id: traitId }, {
             fields: {
               id: 1,
               name: 1,
@@ -61,7 +67,7 @@ Meteor.methods({
           })
 
           if (!traitData) { //нет данных - обновляем кеш
-            console.log(`дергаем апи по специализации  ${traitId}`);
+            console.log(`дергаем апи по трейту  ${traitId}`);
             traitData = Meteor.call('updateTraitCache', traitId)
           }
           traitData.active = true
@@ -71,8 +77,8 @@ Meteor.methods({
 
         // дергаем инфу по major трейтам
         for (let index = 0; index < specData.major_traits.length; index++) {
-          const traitId = specData.major_traits[index];
-          const traitData = CollectionGWTraits.findOne({ id: traitId }, {
+          let traitId = specData.major_traits[index];
+          let traitData = CollectionGWTraits.findOne({ id: traitId }, {
             fields: {
               id: 1,
               name: 1,
@@ -82,7 +88,7 @@ Meteor.methods({
           })
 
           if (!traitData) { //нет данных - обновляем кеш
-            console.log(`дергаем апи по специализации  ${traitId}`);
+            console.log(`дергаем апи по трейту  ${traitId}`);
             traitData = Meteor.call('updateTraitCache', traitId)
           }
           traitData.active = spec.traits.includes(traitId)
