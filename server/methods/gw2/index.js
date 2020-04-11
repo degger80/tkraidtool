@@ -266,7 +266,7 @@ Meteor.methods({
   chacheItemIcon (item) {
     this.unblock()
 
-    // return
+    return
 
     const fileIcon = fs.createWriteStream(`${Meteor.settings.public.assetsPath}/i/${item.id}.png`);
     https.get(item.icon, function (response) {
