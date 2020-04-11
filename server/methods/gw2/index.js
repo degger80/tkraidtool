@@ -278,11 +278,11 @@ Meteor.methods({
     https.get(item.icon, Meteor.bindEnvironment(response => {
       response.pipe(fileIcon);
       if (response.statusCode === 200) {
-        // CollectionGWItems.update({ id: item.id }, {
-        //   $set: {
-        //     icon: `${Meteor.settings.public.assetsUrl}/e/i/${item.id}.png`
-        //   }
-        // })
+        CollectionGWItems.update({ id: item.id }, {
+          $set: {
+            icon: `${Meteor.settings.public.assetsUrl}/e/i/${item.id}.png`
+          }
+        })
       }
     }))
 
