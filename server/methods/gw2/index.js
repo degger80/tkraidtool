@@ -1,3 +1,4 @@
+const https = require('https');
 const fs = require('fs');
 
 Meteor.methods({
@@ -267,20 +268,41 @@ Meteor.methods({
 
     // return
 
-    const f = HTTP.get(item.icon)
-    const newUrl = `${Meteor.settings.public.assetsPath}/e/i/${item.id}.png`
 
 
 
-    if (f.statusCode === 200) {
-      fs.writeFileSync(newUrl, f.content)
-      CollectionGWItems.update({ id: item.id }, {
-        $set: {
-          icon: `${Meteor.settings.public.assetsUrl}/e/i/${item.id}.png`
-        }
-      })
+    const fileIcon = fs.createWriteStream(`${Meteor.settings.public.assetsPath}/e/i/${item.id}.png`);
 
-    }
+
+    // const f = HTTP.get(item.icon)
+    // const newUrl = `${Meteor.settings.public.assetsPath}/e/i/${item.id}.png`
+    // console.log(newUrl);
+
+
+    // if (f.statusCode === 200) {
+    //   fs.writeFileSync(newUrl, f.content)
+    //   CollectionGWItems.update({ id: item.id }, {
+    //     $set: {
+    //       icon: `${Meteor.settings.public.assetsUrl}/e/i/${item.id}.png`
+    //     }
+    //   })
+
+    // }
+
+    https.get(item.icon, Meteor.bindEnvironment(response => {
+      response.pipe(fileIcon);
+      if (response.statusCode === 200) {
+        CollectionGWItems.update({ id: item.id }, {
+          $set: {
+            icon: `${Meteor.settings.public.assetsUrl}/e/i/${item.id}.png`
+          }
+        })
+      }
+    }))
+
+
+
+
 
   }
 })
