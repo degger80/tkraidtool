@@ -11,13 +11,13 @@
           CharacterEquipmentSlot(slotName='WeaponB2' :item="equipment['WeaponB2']" align="left")
       v-row
         v-col.sm-6
-          CharacterEquipmentSlot(:item="equipment['Helm']" slotName="Helm")
-          CharacterEquipmentSlot(:item="equipment['Shoulders']" slotName="Shoulders")
-          CharacterEquipmentSlot(:item="equipment['Coat']" slotName="Coat")
+          CharacterEquipmentSlot(:item="equipment['Helm']" :bonusesQty="equipment['bonusesQty']" slotName="Helm")
+          CharacterEquipmentSlot(:item="equipment['Shoulders']" :bonusesQty="equipment['bonusesQty']" slotName="Shoulders")
+          CharacterEquipmentSlot(:item="equipment['Coat']" :bonusesQty="equipment['bonusesQty']" slotName="Coat")
         v-col.sm-6
-          CharacterEquipmentSlot(:item="equipment['Gloves']" align="left" slotName="Gloves")
-          CharacterEquipmentSlot(:item="equipment['Leggings']" align="left" slotName="Leggings")
-          CharacterEquipmentSlot(:item="equipment['Boots']" align="left" slotName="Boots")
+          CharacterEquipmentSlot(:item="equipment['Gloves']" :bonusesQty="equipment['bonusesQty']" align="left" slotName="Gloves")
+          CharacterEquipmentSlot(:item="equipment['Leggings']" :bonusesQty="equipment['bonusesQty']" align="left" slotName="Leggings")
+          CharacterEquipmentSlot(:item="equipment['Boots']" :bonusesQty="equipment['bonusesQty']" align="left" slotName="Boots")
       v-row
         v-col.sm-6
           CharacterEquipmentSlot(:item="equipment['Backpack']" slotName="Backpack")

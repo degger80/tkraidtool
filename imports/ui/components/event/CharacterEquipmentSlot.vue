@@ -2,7 +2,7 @@
 .es-wrap
   .equipment-slot(:class="[slotName, align]")
     EquipedItem(:item="item" :class="align" v-if="item")
-    EquipedItem( v-if="item" v-for="upgrade, index in item.upgrades" :item="upgrade" :class="['upgrade', `u${index+1}`, align]")
+    EquipedItem( v-if="item" v-for="upgrade, index in item.upgrades" :item="upgrade" :bonusesQty="bonusesQty" :class="['upgrade', `u${index+1}`, align]")
     EquipedItem( v-if="item" v-for="upgrade, index in item.infusions" :item="upgrade" :class="['infusion', `u${index+1}`, align]")
 </template>
 <script>
@@ -17,6 +17,9 @@ export default {
     },
     align: {
       default: "right",
+    },
+    bonusesQty: {
+      default: null,
     },
   },
   components: {

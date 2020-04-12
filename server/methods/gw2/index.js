@@ -126,16 +126,16 @@ Meteor.methods({
     }
   },
   'updateSkillsCache': function (skillId) {
-    this.unblock();
+    // this.unblock();
     try {
-      var result = HTTP.call('GET', 'https://api.guildwars2.com/v2/skills?id=' + skillId, {
+      const result = HTTP.call('GET', 'https://api.guildwars2.com/v2/skills?id=' + skillId, {
         // headers: {
         //     Authorization: "Bearer " + key
         // }
       });
 
-      var item = CollectionGWSkills.findOne({ id: skillId });
-      var insertObject = result.data;
+      const item = CollectionGWSkills.findOne({ id: skillId });
+      const insertObject = result.data;
       insertObject.updatedAt = new Date();
       if (item) {
         //update
@@ -150,7 +150,7 @@ Meteor.methods({
 
       }
 
-      return result;
+      return CollectionGWSkills.findOne({ id: skillId });;
     } catch (e) {
       console.log(e);
       return false;
@@ -261,19 +261,16 @@ Meteor.methods({
       return false;
     }
   },
-  chacheItemIcon (item) {
+  cacheItemIcon (item) {
     this.unblock()
 
     // return
-    console.log(item.id);
+    // console.log(item.id);
 
     if (item.bug) return
 
 
     let newPath = `${Meteor.settings.public.assetsPath}/e/i/${item.id}.png`
-    // console.log(newPath);
-    // console.log(item.icon);
-
     try {
       // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
       let result = HTTP.get(item.icon, {
@@ -300,29 +297,39 @@ Meteor.methods({
 
     }
 
+  },
+
+  cacheSkillIcon (item) {
+    this.unblock()
+
+    if (item.bug) return
 
 
+    let newPath = `${Meteor.settings.public.assetsPath}/e/s/${item.id}.png`
+    try {
+      // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+      let result = HTTP.get(item.icon, {
+        // responseType: "buffer",
+        npmRequestOptions: {
+          requestCert: false,
+          encoding: null,
+          rejectUnauthorized: false // TODO remove when deploy
+        },
+      })
+      // console.log(result);
 
+      if (result.statusCode === 200) {
+        fs.writeFileSync(newPath, result.content)
+        CollectionGWSkills.update({ id: item.id }, {
+          $set: {
+            icon: `${Meteor.settings.public.assetsUrl}/e/s/${item.id}.png`
+          }
+        })
+      }
+    } catch (error) {
+      console.log(error);
 
-    // const fileIcon = fs.createWriteStream(`${Meteor.settings.public.assetsPath}/e/i/${item.id}.png`);
-
-
-
-
-    // https.get(item.icon, Meteor.bindEnvironment(response => {
-    //   response.pipe(fileIcon);
-    //   if (response.statusCode === 200) {
-    //     CollectionGWItems.update({ id: item.id }, {
-    //       $set: {
-    //         icon: `${Meteor.settings.public.assetsUrl}/e/i/${item.id}.png`
-    //       }
-    //     })
-    //   }
-    // }))
-
-
-
-
+    }
 
   }
 })

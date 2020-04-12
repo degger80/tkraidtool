@@ -1,5 +1,26 @@
 import '/imports/collections/CollectionCharacters'
 
+const getSkillData = (skillId) => {
+  // console.log(skillId);
+
+  let skillData = CollectionGWSkills.findOne({ id: skillId })
+  if (!skillData) {
+    console.log(`дергаем апи по skill  ${skillId}`);
+    skillData = Meteor.call('updateSkillsCache', skillId)
+  }
+
+  if (!skillData.icon.includes('time-keepers')) Meteor.call('cacheSkillIcon', skillData);
+
+  let skill = {
+    id: skillData.id,
+    name: skillData.name,
+    description: skillData.description ? skillData.description.replace(/<(?:.|\n)*?>/gm, "") : "",
+    icon: skillData.icon
+  }
+
+  return skill
+}
+
 Meteor.methods({
   'getCharData': function (characterId, eventType) {
     console.log('getCharData', characterId);
@@ -9,7 +30,7 @@ Meteor.methods({
     try {
       const character = CollectionCharacters.findOne({ _id: characterId });
 
-      console.log(eventType);
+      // console.log(eventType);
 
       const charData = {
         name: character.name,
@@ -24,9 +45,30 @@ Meteor.methods({
           Healing: 0
         },
         specs: [],
-        equipment: {}
-
+        equipment: {},
+        skills: []
       }
+
+      // skills
+      const eventTypeSkills = character.skills[eventType];
+      //heal skill
+
+      if (eventTypeSkills.heal) {
+        charData.skills.push(getSkillData(eventTypeSkills.heal))
+      }
+
+      if (eventTypeSkills.utilities) {
+        eventTypeSkills.utilities.map(el => {
+          charData.skills.push(getSkillData(el))
+        })
+      }
+
+      if (eventTypeSkills.elite) {
+        charData.skills.push(getSkillData(eventTypeSkills.elite))
+      }
+
+
+
       const eventTypeSpecs = character.specializations[eventType];
       // console.log(eventTypeSpecs);
 
@@ -49,10 +91,6 @@ Meteor.methods({
           console.log(`дергаем апи по специализации  ${spec.id}`);
           specData = Meteor.call('updateSpecializationCache', spec.id)
         }
-
-
-
-
 
         // меняем профу на название элитной
         if (specData.elite) charData.profession = specData.name
@@ -112,10 +150,12 @@ Meteor.methods({
 
       }
 
-      console.log('Данные по эквипу');
+      // console.log('Данные по эквипу');
 
 
-      const equipmentData = {}
+      const equipmentData = {
+        bonusesQty: {}
+      }
       // обрабатываем эквип
       character.equipment.map(item => {
         // console.log(item);
@@ -126,7 +166,7 @@ Meteor.methods({
 
         }
 
-        if (!itemData.icon.includes('time-keepers')) Meteor.call('chacheItemIcon', itemData);
+        if (!itemData.icon.includes('time-keepers')) Meteor.call('cacheItemIcon', itemData);
 
         // console.log(itemData);
         equipmentData[item.slot] = {
@@ -199,8 +239,10 @@ Meteor.methods({
               upgradeData = Meteor.call('updateItemCache', upgradeId)
             }
             // console.log(`upgrade ${upgradeId}`);
+            // console.log(upgradeData);
 
-            if (!upgradeData.icon.includes('time-keepers')) Meteor.call('chacheItemIcon', upgradeData);
+
+            if (!upgradeData.icon.includes('time-keepers')) Meteor.call('cacheItemIcon', upgradeData);
 
             let stats = {}
 
@@ -218,6 +260,22 @@ Meteor.methods({
               })
             }
 
+            let bonuses = []
+            if (upgradeData.details &&
+              upgradeData.details.bonuses) {
+              bonuses = upgradeData.details.bonuses
+              console.log(item.slot, equipmentData[item.slot]);
+              if (['Coat', 'Boots', 'Gloves', 'Helm', 'Leggings', 'Shoulders'].includes(item.slot)) {
+                if (!equipmentData['bonusesQty'][upgradeData.id]) {
+                  equipmentData['bonusesQty'][upgradeData.id] = 1
+                } else {
+                  equipmentData['bonusesQty'][upgradeData.id] += 1
+                }
+              }
+
+            }
+
+
 
 
             // console.log(upgradeData);
@@ -226,7 +284,8 @@ Meteor.methods({
               name: upgradeData.name,
               icon: upgradeData.icon,
               description: upgradeData.details && upgradeData.details.infix_upgrade && upgradeData.details.infix_upgrade.buff && upgradeData.details.infix_upgrade.buff.description.replace(/<(?:.|\n)*?>/gm, ""),
-              stats
+              stats,
+              bonuses
             })
 
           }
@@ -244,7 +303,7 @@ Meteor.methods({
             }
             // console.log(`infusion ${infusionId}`);
 
-            if (!infusionData.icon.includes('time-keepers')) Meteor.call('chacheItemIcon', infusionData);
+            if (!infusionData.icon.includes('time-keepers')) Meteor.call('cacheItemIcon', infusionData);
 
             let stats = {}
 

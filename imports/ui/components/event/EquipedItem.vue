@@ -9,11 +9,12 @@
     p(v-if="item.description") {{item.description}}
     p(v-if="item.defense") {{item.defense}}
     p(v-for="item in stats") {{item}}
+    p(v-for="bonuse, index in item.bonuses" :class="{active: bonusesQty&&bonusesQty[item.id]&&bonusesQty[item.id]>=index+1}") {{bonuse}}
 
 </template>
 <script>
 export default {
-  props: ["item", "align"],
+  props: ["item", "align", "bonusesQty"],
   computed: {
     stats() {
       const stats = [];
@@ -27,3 +28,7 @@ export default {
   },
 };
 </script>
+<style lang="stylus" scoped>
+p.active
+  color #ffa405
+</style>
