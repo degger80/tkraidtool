@@ -265,26 +265,60 @@ Meteor.methods({
     this.unblock()
 
     // return
+    console.log(item.id);
 
     if (item.bug) return
 
 
+    let newPath = `${Meteor.settings.public.assetsPath}/e/i/${item.id}.png`
+    // console.log(newPath);
+    // console.log(item.icon);
 
+    try {
+      // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+      let result = HTTP.get(item.icon, {
+        // responseType: "buffer",
+        npmRequestOptions: {
+          requestCert: false,
+          encoding: null,
 
-    const fileIcon = fs.createWriteStream(`${Meteor.settings.public.assetsPath}/e/i/${item.id}.png`);
+          rejectUnauthorized: false // TODO remove when deploy
+        },
+      })
+      // console.log(result);
 
-
-
-    https.get(item.icon, Meteor.bindEnvironment(response => {
-      response.pipe(fileIcon);
-      if (response.statusCode === 200) {
+      if (result.statusCode === 200) {
+        fs.writeFileSync(newPath, result.content)
         CollectionGWItems.update({ id: item.id }, {
           $set: {
             icon: `${Meteor.settings.public.assetsUrl}/e/i/${item.id}.png`
           }
         })
       }
-    }))
+    } catch (error) {
+      console.log(error);
+
+    }
+
+
+
+
+
+    // const fileIcon = fs.createWriteStream(`${Meteor.settings.public.assetsPath}/e/i/${item.id}.png`);
+
+
+
+
+    // https.get(item.icon, Meteor.bindEnvironment(response => {
+    //   response.pipe(fileIcon);
+    //   if (response.statusCode === 200) {
+    //     CollectionGWItems.update({ id: item.id }, {
+    //       $set: {
+    //         icon: `${Meteor.settings.public.assetsUrl}/e/i/${item.id}.png`
+    //       }
+    //     })
+    //   }
+    // }))
 
 
 

@@ -28,12 +28,12 @@ Meteor.methods({
 
       }
       const eventTypeSpecs = character.specializations[eventType];
-      console.log(eventTypeSpecs);
+      // console.log(eventTypeSpecs);
 
       for (let index = 0; index < eventTypeSpecs.length; index++) {
         const spec = eventTypeSpecs[index];
         if (spec.id === 0) return charData
-        console.log(spec.id);
+        // console.log(spec.id);
 
         let specData = CollectionGWSpecializations.findOne({ id: spec.id }, {
           fields: {
@@ -51,29 +51,40 @@ Meteor.methods({
         }
 
 
+
+
+
         // меняем профу на название элитной
         if (specData.elite) charData.profession = specData.name
 
         // дергаем инфу по minor трейтам
         for (let index = 0; index < specData.minor_traits.length; index++) {
           let traitId = specData.minor_traits[index];
-          let traitData = CollectionGWTraits.findOne({ id: traitId }, {
-            fields: {
-              id: 1,
-              name: 1,
-              description: 1,
-              specialization: 1
+          let traitData = CollectionGWTraits.findOne({ id: traitId },
+            {
+              fields: {
+                id: 1,
+                name: 1,
+                description: 1,
+                specialization: 1
+              }
             }
-          })
+          )
 
           if (!traitData) { //нет данных - обновляем кеш
             console.log(`дергаем апи по трейту  ${traitId}`);
             traitData = Meteor.call('updateTraitCache', traitId)
           }
           traitData.active = true
-          traitData.description = traitData.description.replace(/<(?:.|\n)*?>/gm, "");
+
+          // console.log(traitData);
+
+          traitData.description = traitData.description ? traitData.description.replace(/<(?:.|\n)*?>/gm, "") : "";
           specData.minor_traits[index] = traitData
         }
+
+
+
 
         // дергаем инфу по major трейтам
         for (let index = 0; index < specData.major_traits.length; index++) {
@@ -92,7 +103,7 @@ Meteor.methods({
             traitData = Meteor.call('updateTraitCache', traitId)
           }
           traitData.active = spec.traits.includes(traitId)
-          traitData.description = traitData.description.replace(/<(?:.|\n)*?>/gm, "");
+          traitData.description = traitData.description ? traitData.description.replace(/<(?:.|\n)*?>/gm, "") : "";
           specData.major_traits[index] = traitData
         }
 
@@ -100,6 +111,9 @@ Meteor.methods({
         charData.specs.push(specData)
 
       }
+
+      console.log('Данные по эквипу');
+
 
       const equipmentData = {}
       // обрабатываем эквип
