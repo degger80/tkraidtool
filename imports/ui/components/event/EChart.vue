@@ -32,6 +32,7 @@ export default {
         tooltip: {},
         radar: {
           // shape: 'circle',
+          radius: "70%",
           name: {
             textStyle: {
               color: "#fff",
@@ -41,12 +42,14 @@ export default {
             },
           },
           indicator: [
-            { name: "Power", max: maxValue },
+            { name: "ConditionDamage", max: maxValue },
             { name: "Precision", max: maxValue },
             { name: "Ferocity", max: maxValue },
+
+            { name: "Power", max: maxValue },
             { name: "Toughness", max: maxValue },
             { name: "Vitality", max: maxValue },
-            { name: "ConditionDamage", max: maxValue },
+
             { name: "Healing", max: maxValue },
           ],
         },
@@ -57,12 +60,13 @@ export default {
             // areaStyle: {normal: {}},
             data: [
               [
-                sumStats["Power"],
+                sumStats["ConditionDamage"],
                 sumStats["Precision"],
                 sumStats["Ferocity"],
+                sumStats["Power"],
                 sumStats["Toughness"],
                 sumStats["Vitality"],
-                sumStats["ConditionDamage"],
+
                 sumStats["Healing"],
               ],
             ],

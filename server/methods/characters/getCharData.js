@@ -263,7 +263,7 @@ Meteor.methods({
             let bonuses = []
             if (upgradeData.details &&
               upgradeData.details.bonuses) {
-              bonuses = upgradeData.details.bonuses
+              bonuses = upgradeData.details.bonuses.map(el => (el.replace(/<(?:.|\n)*?>/gm, "")))
               console.log(item.slot, equipmentData[item.slot]);
               if (['Coat', 'Boots', 'Gloves', 'Helm', 'Leggings', 'Shoulders'].includes(item.slot)) {
                 if (!equipmentData['bonusesQty'][upgradeData.id]) {
