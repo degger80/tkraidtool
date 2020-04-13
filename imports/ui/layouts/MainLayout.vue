@@ -11,9 +11,13 @@ v-app(style="background:rgba(255,255,255,0.8)")
       v-btn(small color="primary" @click="login" v-if="!currentUser") Login with Dsicord
       v-btn.mr-10(v-if="isAdmin" to='/admin/users' text)
         v-icon mdi-account-supervisor
-      router-link(v-if="currentUser" to='/profile')
-        v-avatar(to='/profile' v-if="currentUser" size="40px")
-          img(:src="`https://cdn.discordapp.com/avatars/${currentUser.profile.id}/${currentUser.profile.avatar}`")
+      v-list.pa-0.ma-0(color="blue-grey lighten-5")
+        v-list-item(v-if="currentUser" to='/profile')
+          v-list-item-content Профиль
+          v-list-item-avatar
+            img(:src="`https://cdn.discordapp.com/avatars/${currentUser.profile.id}/${currentUser.profile.avatar}`")
+        
+          
     v-container.mb-8
       slot
     v-footer(absolute)
