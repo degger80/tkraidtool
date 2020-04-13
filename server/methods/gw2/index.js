@@ -5,23 +5,12 @@ Meteor.methods({
   'updateItemCache': function (itemId) {
     // this.unblock();
     try {
-      var result = HTTP.call('GET', 'https://api.guildwars2.com/v2/items/' + itemId, {
-        // headers: {
-        //     Authorization: "Bearer " + key
-        // }
-      });
 
+      const result = HTTP.call('GET', 'https://api.guildwars2.com/v2/items/' + itemId);
 
       var item = CollectionGWItems.findOne({ id: itemId });
       var insertObject = result.data;
-      if (result.statusCode === 404) {
-        insertObject = {
-          id: itemId,
-          name: 'Фигня какая то которой нет в API',
-          bug: true,
-          icon: `/images/races/Asura_tango_icon_48px.png`
-        }
-      }
+
       insertObject.updatedAt = new Date();
       if (item) {
         //update
@@ -38,8 +27,22 @@ Meteor.methods({
 
       return CollectionGWItems.findOne({ id: itemId });
     } catch (e) {
-      console.log(e);
-      return false;
+
+      let insertObject = {
+        id: itemId,
+        name: 'Фигня какая то которой нет в API',
+        bug: true,
+        icon: `/images/races/Asura_tango_icon_48px.png`,
+
+      }
+      insertObject.updatedAt = new Date()
+
+      if (e.response.statusCode === 404) {
+
+        CollectionGWItems.upsert({ id: itemId }, { $set: insertObject });
+        return CollectionGWItems.findOne({ id: itemId });
+      }
+      return insertObject
     }
   },
 

@@ -239,7 +239,7 @@ Meteor.methods({
               upgradeData = Meteor.call('updateItemCache', upgradeId)
             }
             // console.log(`upgrade ${upgradeId}`);
-            // console.log(upgradeData);
+            console.log(upgradeData);
 
 
             if (!upgradeData.icon.includes('time-keepers')) Meteor.call('cacheItemIcon', upgradeData);
