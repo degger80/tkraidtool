@@ -4,3 +4,4 @@ node_modules/
 settings.json
 pm2-meteor.json
 pm2.json
+.vscode/typings/meteor.d.ts
