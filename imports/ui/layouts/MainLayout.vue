@@ -50,7 +50,7 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .logo
-  background-image: url(http://time-keepers.ru/styles/prisma/prisma/logo.png)
+  background-image: url(https://time-keepers.ru/styles/prisma/prisma/logo.png)
   background-size cover
   width 50px
   height 50px
