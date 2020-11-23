@@ -9,6 +9,8 @@ v-app(style="background:rgba(255,255,255,0.8)")
         router-link.title.tdn(to="/") TK raid tool
       v-spacer
       v-btn(small color="primary" @click="login" v-if="!currentUser") Login with Dsicord
+      v-btn.mr-10(v-if="isAdmin" to='/archive' text)
+        v-icon mdi-history
       v-btn.mr-10(v-if="isAdmin" to='/admin/users' text)
         v-icon mdi-account-supervisor
       v-list.pa-0.ma-0(color="blue-grey lighten-5")

@@ -8,9 +8,11 @@ import isAdmin from '/imports/api/helpers/isAdmin'
 
 import Widget from '../imports/ui/pages/Widget.vue'
 import AddEvent from '../imports/ui/pages/AddEvent.vue'
+import EditEvent from '../imports/ui/pages/EditEvent.vue'
 import Home from '../imports/ui/pages/Home.vue'
 import Profile from '../imports/ui/pages/Profile.vue'
 import Event from '../imports/ui/pages/Event.vue'
+import Archive from '../imports/ui/pages/Archive.vue'
 
 
 import AdminUsersPage from '../imports/ui/pages/admin/Users.vue'
@@ -19,6 +21,7 @@ Vue.use(VueRouter)
 const routes = [
 
   { path: '/', name: 'home', component: Home },
+  { path: '/archive', name: 'archive', component: Archive },
   { path: '/upcoming-events', name: 'widget', component: Widget },
   { path: '/event/:id', name: 'event', component: Event },
   {
@@ -33,6 +36,16 @@ const routes = [
   },
   {
     path: '/add-event', name: 'add-event', component: AddEvent,
+
+    beforeEnter: (to, from, next) => {
+      isRL().then(response => {
+        // if true, continue, else redirect to Login page
+        response ? next() : next({ name: 'home' })
+      })
+    }
+  },
+  {
+    path: '/edit-event/:id', name: 'edit-event', component: EditEvent,
 
     beforeEnter: (to, from, next) => {
       isRL().then(response => {

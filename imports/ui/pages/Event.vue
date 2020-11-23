@@ -17,8 +17,12 @@
               .body-1.text--primary {{event.description}}
               .subtitle-2 Начало: {{fmtDate(event.startDateTime)}}
               .body-2 (по МСК: {{fmtDate(event.startDateTime, true)}})
-            v-icon.zxc.pa-4(v-if="isAdmin || (currentUser && currentUser._id === event.ownerId)" @click="del" color="red") mdi-delete
-
+            v-btn.zxc.pa-4(v-if="isAdmin || (currentUser && currentUser._id === event.ownerId)" @click="del" icon)
+              v-icon( color="red") mdi-delete
+            v-btn.zxc.pa-4.mr-12(v-if="isAdmin || (currentUser && currentUser._id === event.ownerId)" :href="`/edit-event/${$route.params.id}`" icon)
+              v-icon(color="green") mdi-pencil
+            
+            
         v-col(v-if="currentUser" cols="12" sm="9")
           Subscribe
       v-row
@@ -232,15 +236,17 @@ export default {
       self.isCharboxOpen = false;
       self.selectedCharId = null;
       self.charData = null;
-      Meteor.call("getCharData", charId, this.event.eventType, function (
-        err,
-        result
-      ) {
-        console.log(result);
-        self.selectedCharId = charId;
-        self.charData = result;
-        self.isCharboxOpen = true;
-      });
+      Meteor.call(
+        "getCharData",
+        charId,
+        this.event.eventType,
+        function (err, result) {
+          console.log(result);
+          self.selectedCharId = charId;
+          self.charData = result;
+          self.isCharboxOpen = true;
+        }
+      );
     },
   },
 };

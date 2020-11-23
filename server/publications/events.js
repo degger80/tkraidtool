@@ -66,6 +66,41 @@ Meteor.publish('upcomingEvents', function (limit) {
     });
 });
 
+Meteor.publish('lastMonthEvents', function (limit) {
+  Date.prototype.addHours = function (h) {
+    this.setTime(this.getTime() + (h * 60 * 60 * 1000));
+    return this;
+  }
+  var startDateTime = new Date().addHours(-4);
+  let from = new Date().addHours(-4 - 30 * 24);
+  if (Roles.userIsInRole(this.userId, ['admin']))
+    return CollectionEvents.find({
+      startDateTime: {
+
+        $gt: from,
+        $lt: startDateTime
+
+      }
+    }, {
+      sort: { startDateTime: 1 },
+      limit: limit
+    });
+  else
+    return CollectionEvents.find({
+      startDateTime: {
+        $gt: startDateTime
+      },
+      $or: [
+        { isPrivate: false }, // публичный ивент
+        { ownerId: this.userId }, //владелец ивента
+        { invitedUsers: this.userId } //пользователь в списке приглашенных
+      ]
+    }, {
+      sort: { startDateTime: 1 },
+      limit: limit
+    });
+});
+
 Meteor.publish('eventsOfTheDay', function (date, clientOffset) {
   // console.log(date);
 
