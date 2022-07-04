@@ -1,7 +1,7 @@
 <template lang="pug">
 v-card.py-8
   v-card-title 
-    img.mr-2(:src="`/images/professions/${character['profession']}_tango_icon_48px.png`")
+    img.mr-2(:src="`${assetsUrl}/professions/${character['profession']}_tango_icon_48px.png`")
     | {{character.name}}
   v-card-text
     v-row
@@ -21,6 +21,7 @@ export default {
   data() {
     return {
       eventType: this.defaultEventType,
+      assetsUrl: Meteor.settings.public.assetsUrl,
     };
   },
   components: {
