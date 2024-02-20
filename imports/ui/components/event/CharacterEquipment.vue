@@ -23,6 +23,7 @@
           CharacterEquipmentSlot(:item="equipment['Backpack']" slotName="Backpack")
           CharacterEquipmentSlot(:item="equipment['Ring1']" slotName="Ring1")
           CharacterEquipmentSlot(:item="equipment['Ring2']" slotName="Ring2")
+          CharacterEquipmentSlot(:item="equipment['Relic']" slotName="Relic")
         v-col.sm-6
           CharacterEquipmentSlot(:item="equipment['Amulet']" align="left" slotName="Amulet")
           CharacterEquipmentSlot(:item="equipment['Accessory1']" align="left" slotName="Accessory1")
