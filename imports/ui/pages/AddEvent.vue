@@ -33,7 +33,7 @@
                     label="Напутствие / Описание"
                   )
                 v-col(cols="12" sm="2")
-                  v-select(outlined label="Количество групп" v-model="maxGroups" :items="[1,2,3,4,5,6,7,8]")
+                  v-select(outlined label="Количество групп" v-model="maxGroups" :items="[1,2,3,4,5,6,7,8,9,10]")
                 v-col(cols="12" sm="2")
                   v-select(outlined label="Длительность в часах" v-model="duration" :items="[1,2,3,4]")
                 v-col(cols="12")
@@ -52,7 +52,7 @@ export default {
     datetime: "",
     datePicker: moment().format("YYYY-MM-DD"),
     timePicker: moment().format("HH:mm"),
-    maxGroups: 8,
+    maxGroups: 10,
     duration: 1,
     timeProps: {
       format: "24hr"

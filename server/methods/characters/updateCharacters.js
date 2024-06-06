@@ -12,6 +12,7 @@ Meteor.methods({
 
     for (let index = 0; index < result.data.length; index++) {
       const item = result.data[index]
+      // console.log(item);
       item.visible = true
       CollectionCharacters.upsert({
         userId,
