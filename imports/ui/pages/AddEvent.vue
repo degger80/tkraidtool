@@ -99,7 +99,7 @@ export default {
         if (err) console.log(err);
         else console.log("successfuly created", result);
 
-        //- Meteor.call("notifyEvent", result._id);
+        Meteor.call("notifyEvent", result);
 
         self.$router.push({ name: "home" });
       });
