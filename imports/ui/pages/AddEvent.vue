@@ -97,9 +97,14 @@ export default {
 
       CollectionEvents.insert(insertObj, function(err, result) {
         if (err) console.log(err);
-        else console.log("successfuly created");
+        else console.log("successfuly created", result);
+
+        //- Meteor.call("notifyEvent", result._id);
+
         self.$router.push({ name: "home" });
       });
+
+      
     }
   }
 };
