@@ -33,7 +33,7 @@
                     label="Напутствие / Описание"
                   )
                 v-col(cols="12" sm="2")
-                  v-select(outlined label="Количество групп" v-model="event.maxGroups" :items="[1,2,3,4,5,6,7,8]")
+                  v-select(outlined label="Количество групп" v-model="event.maxGroups" :items="[1,2,3,4,5,6,7,8,9,10]")
                 v-col(cols="12" sm="2")
                   v-select(outlined label="Длительность в часах" v-model="event.duration" :items="[1,2,3,4]")
                 v-col(cols="12")

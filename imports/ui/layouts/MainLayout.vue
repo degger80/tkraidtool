@@ -60,14 +60,14 @@ export default {
   width 40px
   height 40px
 .bg-img1
-  background-image: url(https://en-forum.guildwars2.com/static-asset/cl40013/themes/guildwars/design/images/side-art-left.jpg)
+  background-image: url(https://time-keepers.ru/_tkrtassets/side-art-left.jpg)
   background-size contain
   position fixed
   z-index -10000
   width 100%
   height 100vh
 .bg-img2
-  background-image: url(https://en-forum.guildwars2.com/static-asset/cl40013/themes/guildwars/design/images/side-art-right.jpg)
+  background-image: url(https://time-keepers.ru/_tkrtassets/side-art-right.jpg)
   background-size contain
   background-position 100%
   float right
