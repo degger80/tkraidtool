@@ -224,12 +224,12 @@ export default {
       console.log(slotId);
     },
     del() {
-      console.log("asd");
+      console.log("deleting event", this.$route.params.id);
 
-      // if (confirm("Точно удалить ивент?")) {
-      Meteor.call("removeEvent", this.$route.params.id);
-      this.$router.push({ name: "home" });
-      // }
+      if (confirm("Точно удалить ивент?")) {
+        Meteor.call("removeEvent", this.$route.params.id);
+        this.$router.push({ name: "home" });
+      }
     },
     toggleSelectedCharId(charId) {
       self = this;
