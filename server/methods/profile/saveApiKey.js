@@ -1,6 +1,6 @@
 Meteor.methods({
   'saveApiKey': function (key) {
-    console.log(this.userId);
+    console.log(this.userId, key);
 
     key = key.trim()
 
@@ -44,6 +44,8 @@ Meteor.methods({
 
 
     } catch (error) {
+      console.log(error);
+
 
       if (error.error) throw new Meteor.Error(`Плохой ключ: ${error.error}`)
       else throw new Meteor.Error('Плохой ключ: Попробуй создать новый точно следуя инструкции.')
