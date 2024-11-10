@@ -10,14 +10,26 @@ Meteor.methods({
           Authorization: "Bearer " + key
         }
       });
-      // console.log(result);
+      console.log(result);
 
       let check = 0
       result.data.permissions.map(el => {
-        if (el === 'characters') check++
-        if (el === 'account') check++
-        if (el === 'builds') check++
-        if (el === 'pvp') check++
+        if (el === 'characters') {
+          check++
+          console.log(el, "++")
+        }
+        if (el === 'account') {
+          check++
+          console.log(el, "++")
+        }
+        if (el === 'builds') {
+          check++
+          console.log(el, "++")
+        }
+        if (el === 'pvp') {
+          check++
+          console.log(el, "++")
+        }
       })
 
       if (check !== 4) throw new Meteor.Error('Не все галочки выбраны')
