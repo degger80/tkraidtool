@@ -6,7 +6,7 @@ Meteor.methods({
 
     const result = HTTP.call('GET', 'https://api.guildwars2.com/v2/characters', {
       params: {
-        access_token: key,
+        access_token: user.profile.gw2ApiKey,
         page: 0,
         page_size: 50
       },

@@ -16,7 +16,7 @@ Meteor.methods({
           //   Authorization: "Bearer " + key
           // }
         });
-      console.log(result);
+      // console.log(result);
 
       let check = 0
       result.data.permissions.map(el => {
