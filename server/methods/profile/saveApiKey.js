@@ -5,11 +5,17 @@ Meteor.methods({
     key = key.trim()
 
     try {
-      var result = HTTP.call('GET', 'https://api.guildwars2.com/v2/tokeninfo', {
-        headers: {
-          Authorization: "Bearer " + key
-        }
-      });
+      var result = HTTP.call('GET', 'https://api.guildwars2.com/v2/tokeninfo',
+        {
+          params: {
+            access_token: key
+          }
+
+          // , {
+          // headers: {
+          //   Authorization: "Bearer " + key
+          // }
+        });
       console.log(result);
 
       let check = 0
