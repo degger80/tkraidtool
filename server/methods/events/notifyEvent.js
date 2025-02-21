@@ -1,7 +1,7 @@
 import { exec } from 'child_process'
-import { Log } from 'meteor/logging'
+// import { Log } from 'meteor/logging'
 
-import { fmtDate } from "/imports/ui/mixins/fmtDate";
+// import { fmtDate } from "/imports/ui/mixins/fmtDate";
 Meteor.methods({
   'notifyEvent': function (eventId) {
     var userId = Meteor.userId();
@@ -17,11 +17,14 @@ Meteor.methods({
 
     // this.unblock();
 
+    var date = moment(eventItem.startDateTime)
+      .utcOffset(180)
+      .format("H:mm DD MMMM YYYY")
 
-    Meteor.Log(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${fmtDate(eventItem.startDateTime)} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест"`);
+    Meteor.Log(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${date} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест"`);
     Meteor.Log(123);
-    console.log(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${fmtDate(eventItem.startDateTime)} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест"`);
-    // exec(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${fmtDate(eventItem.startDateTime)} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест"`);
+    console.log(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${date} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест"`);
+    exec(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${date} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест"`);
 
 
     return true;
