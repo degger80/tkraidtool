@@ -23,7 +23,9 @@ Meteor.methods({
       .format("H:mm DD MMMM YYYY");
 
     var msg = `${date} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест`;
-    msg = msg.replace(/([^a-z0-9]+)/gi, '-');
+    console.log(msg);
+
+    msg = msg.replace(/([^a-z0-9а-яА-Я\.\s]+)/gi, ' ');
 
     console.log(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${msg}"`);
     exec(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${msg}"`);
