@@ -22,10 +22,10 @@ Meteor.methods({
       .utcOffset(180)
       .format("H:mm DD MMMM YYYY");
 
-    var msg = `${date} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест`;
+    var msg = `${eventItem.ownerUsername} собирает ${date} ${eventItem.title} (${eventItem.eventType}) ${eventItem.description} ${eventItem.maxGroups * 5} мест`;
     console.log(msg);
 
-    msg = msg.replace(/([^a-z0-9а-яА-Я\.\s]+)/gi, ' ');
+    msg = msg.replace(/([^a-z0-9а-яА-Я():\.\s]+)/gi, ' ');
 
     console.log(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${msg}"`);
     exec(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${msg}"`);
