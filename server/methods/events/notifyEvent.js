@@ -1,4 +1,5 @@
 import { exec } from 'child_process'
+import { Log } from 'meteor/logging'
 
 import { fmtDate } from "/imports/ui/mixins/fmtDate";
 Meteor.methods({
@@ -18,7 +19,7 @@ Meteor.methods({
 
     exec(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${fmtDate(eventItem.startDateTime)} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест"`);
 
-    console.log(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${fmtDate(eventItem.startDateTime)} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест"`)
+    Log(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${fmtDate(eventItem.startDateTime)} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест"`)
     return true;
   }
 });
