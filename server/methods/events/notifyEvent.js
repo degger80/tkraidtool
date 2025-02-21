@@ -16,15 +16,17 @@ Meteor.methods({
     }
 
     // this.unblock();
+    console.log(eventItem.startDateTime);
 
     var date = moment(eventItem.startDateTime)
       .utcOffset(180)
-      .format("H:mm DD MMMM YYYY")
+      .format("H:mm DD MMMM YYYY");
 
-    Meteor.Log(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${date} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест"`);
-    Meteor.Log(123);
-    console.log(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${date} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест"`);
-    exec(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${date} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест"`);
+    var msg = `${date} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест`;
+    msg = msg.replace(/([^a-z0-9]+)/gi, '-');
+
+    console.log(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${msg}"`);
+    exec(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${msg}"`);
 
 
     return true;
