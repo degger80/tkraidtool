@@ -1,21 +1,23 @@
-import {exec} from 'child_process' 
+import { exec } from 'child_process'
+
+import { fmtDate } from "/imports/ui/mixins/fmtDate";
 Meteor.methods({
-    'notifyEvent': function (eventId) {
-      var userId = Meteor.userId();
-      var eventItem = CollectionEvents.findOne(eventId);
-  
-      if (!userId) {
-        throw new Meteor.Error(401, 'Надо залогиниться чтобы удалять ивенты');
-      }
-  
-      if (!(Roles.userIsInRole(userId, 'admin') || (userId === eventItem.ownerId))) {
-        throw new Meteor.Error(403, 'Только админ или владелец инвента может удалить ивент');
-      }
-  
-      this.unblock();
+  'notifyEvent': function (eventId) {
+    var userId = Meteor.userId();
+    var eventItem = CollectionEvents.findOne(eventId);
 
-      exec(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId}`);
-
-      return true;
+    if (!userId) {
+      throw new Meteor.Error(401, 'Надо залогиниться чтобы удалять ивенты');
     }
-  });
+
+    if (!(Roles.userIsInRole(userId, 'admin') || (userId === eventItem.ownerId))) {
+      throw new Meteor.Error(403, 'Только админ или владелец инвента может удалить ивент');
+    }
+
+    this.unblock();
+
+    exec(`/home/tkraidtool/.nvm/versions/node/v20.14.0/bin/node /home/tkraidtool/tk_raid_tool/discord/notify.js ${eventId} "${fmtDate(eventItem.startDateTime)} ${eventItem.title} ${eventItem.description} (${eventItem.ownerUsername}) ${eventItem.maxGroups * 5} мест"`);
+
+    return true;
+  }
+});
