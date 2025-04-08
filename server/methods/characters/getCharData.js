@@ -31,7 +31,7 @@ Meteor.methods({
       const character = CollectionCharacters.findOne({ _id: characterId });
       const u = Meteor.users.findOne(character.userId);
 
-      // console.log(eventType);
+      console.log('u', u, u.profile, u.profile.username);
 
       const charData = {
         name: character.name,
@@ -50,6 +50,8 @@ Meteor.methods({
         equipment: {},
         skills: []
       }
+
+      console.log('charData', charData);
 
       // skills
       const eventTypeSkills = character.skills[eventType];
