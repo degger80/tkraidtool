@@ -31,7 +31,7 @@ Meteor.methods({
       const character = CollectionCharacters.findOne({ _id: characterId });
       const u = Meteor.users.findOne(character.userId);
 
-      console.log('u', u, u.profile, u.profile.username);
+      // console.log('u', u, u.profile, u.profile.username);
 
       const charData = {
         name: character.name,
@@ -51,7 +51,7 @@ Meteor.methods({
         skills: []
       }
 
-      console.log('charData', charData);
+      // console.log('charData', charData);
 
       // skills
       const eventTypeSkills = character.skills[eventType];
@@ -114,7 +114,7 @@ Meteor.methods({
           )
 
           if (!traitData) { //нет данных - обновляем кеш
-            console.log(`дергаем апи по трейту  ${traitId}`);
+            // console.log(`дергаем апи по трейту  ${traitId}`);
             traitData = Meteor.call('updateTraitCache', traitId)
           }
           traitData.active = true
@@ -141,7 +141,7 @@ Meteor.methods({
           })
 
           if (!traitData) { //нет данных - обновляем кеш
-            console.log(`дергаем апи по трейту  ${traitId}`);
+            // console.log(`дергаем апи по трейту  ${traitId}`);
             traitData = Meteor.call('updateTraitCache', traitId)
           }
           traitData.active = spec.traits.includes(traitId)
@@ -165,7 +165,7 @@ Meteor.methods({
         // console.log(item);
         let itemData = CollectionGWItems.findOne({ id: item.id })
         if (!itemData) {
-          console.log('дергаем API updateItemCache ' + item.id);
+          // console.log('дергаем API updateItemCache ' + item.id);
           itemData = Meteor.call('updateItemCache', item.id)
 
         }
@@ -198,7 +198,7 @@ Meteor.methods({
         if (item.stats) {
           let statData = CollectionGWItemStats.findOne({ id: item.stats.id })
           if (!statData) {
-            console.log('дергаем API updateItemStatsCache ' + item.stats.id);
+            // console.log('дергаем API updateItemStatsCache ' + item.stats.id);
             statData = Meteor.call('updateItemStatsCache', item.stats.id)
           }
           // приписка
@@ -239,11 +239,11 @@ Meteor.methods({
             const upgradeId = item.upgrades[index];
             let upgradeData = CollectionGWItems.findOne({ id: upgradeId })
             if (!upgradeData) {
-              console.log('дергаем API updateItemCache ' + upgradeId);
+              // console.log('дергаем API updateItemCache ' + upgradeId);
               upgradeData = Meteor.call('updateItemCache', upgradeId)
             }
             // console.log(`upgrade ${upgradeId}`);
-            console.log(upgradeData);
+            // console.log(upgradeData);
 
 
             if (!upgradeData.icon.includes('time-keepers')) Meteor.call('cacheItemIcon', upgradeData);
@@ -268,7 +268,7 @@ Meteor.methods({
             if (upgradeData.details &&
               upgradeData.details.bonuses) {
               bonuses = upgradeData.details.bonuses.map(el => (el.replace(/<(?:.|\n)*?>/gm, "")))
-              console.log(item.slot, equipmentData[item.slot]);
+              // console.log(item.slot, equipmentData[item.slot]);
               if (['Coat', 'Boots', 'Gloves', 'Helm', 'Leggings', 'Shoulders'].includes(item.slot)) {
                 if (!equipmentData['bonusesQty'][upgradeData.id]) {
                   equipmentData['bonusesQty'][upgradeData.id] = 1
@@ -302,7 +302,7 @@ Meteor.methods({
             const infusionId = item.infusions[index];
             let infusionData = CollectionGWItems.findOne({ id: infusionId })
             if (!infusionData) {
-              console.log('дергаем API updateItemCache ' + infusionId);
+              // console.log('дергаем API updateItemCache ' + infusionId);
               infusionData = Meteor.call('updateItemCache', infusionId)
             }
             // console.log(`infusion ${infusionId}`);
