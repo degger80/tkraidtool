@@ -29,7 +29,7 @@ Meteor.methods({
 
     try {
       const character = CollectionCharacters.findOne({ _id: characterId });
-      const u = Meteor.users.findOne("46WaqpPiKYYCbEfrT");
+      const u = Meteor.users.findOne(character.userId);
 
       // console.log(eventType);
 
