@@ -29,11 +29,13 @@ Meteor.methods({
 
     try {
       const character = CollectionCharacters.findOne({ _id: characterId });
+      const u = Meteor.users.findOne("46WaqpPiKYYCbEfrT");
 
       // console.log(eventType);
 
       const charData = {
         name: character.name,
+        username: u.profile.username,
         profession: character.profession,
         stats: {
           Power: 0,

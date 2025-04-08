@@ -2,7 +2,7 @@
 v-card.py-8
   v-card-title 
     img.mr-2(:src="`${assetsUrl}/professions/${character['profession']}_tango_icon_48px.png`")
-    | {{character.name}}
+    | {{character.name}} - {{character.username}}
   v-card-text
     v-row
       v-col.lg-5
